@@ -147,7 +147,7 @@ void read_word() {
 
 void Next_Word() {
   int count_car = 0 ;
-  *(Token_Cour->WORD)=Car_Cour;
+  *(Token_Cour->WORD+count_car)=Car_Cour;
   count_car++;
   Next_Car();
   while(('a'<=Car_Cour && Car_Cour<='z')||('A'<=Car_Cour && Car_Cour<='Z')||('0'<=Car_Cour && Car_Cour<='9')) {
@@ -158,7 +158,7 @@ void Next_Word() {
 }
 void Next_Number() {
   int count_car = 0 ;
-  *(Token_Cour->WORD)=Car_Cour;
+  *(Token_Cour->WORD+count_car)=Car_Cour;
   Next_Car();
   while(('0'<=Car_Cour && Car_Cour<='9')) {
     *(Token_Cour->WORD)=Car_Cour;
