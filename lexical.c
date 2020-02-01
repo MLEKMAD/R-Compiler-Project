@@ -3,6 +3,15 @@
 #include<ctype.h>
 #include<string.h>
 
+/**
+*MASTER
+* @author : Mohamed LEKMAD
+* slaves
+* @author : Hatim LAHLALI
+* @author : khaoula LOUDIYI
+* @author : Oussama EL KHALIFA
+**/
+
 
 int  Car_Cour=0;
 FILE* Fichier;
@@ -133,7 +142,7 @@ void lire_nbr(){
 		Lire_Car();
 		i=i+1;
 	}
-    if((isspace(Car_Cour))|| (Car_Cour=='(' )||( Car_Cour==')') || (Car_Cour=='=') ){
+    if((isspace(Car_Cour))|| ( Car_Cour==')') || (Car_Cour=='=') || (Car_Cour==']')){
         SYM_COUR.CODE =NUM_TOKEN ;
         printf("NUM_TOKEN\n");
     }
@@ -143,7 +152,7 @@ void lire_nbr(){
         Erreur(ERR_CAR_INC);
 		}
 }
-void sym_suiv(){
+void next_sym(){
 	if(isspace(Car_Cour)!=0){
 		Lire_Car();
 	}
@@ -151,11 +160,12 @@ void sym_suiv(){
 		lire_mots();
 	}else if(isdigit(Car_Cour)!=0){
 		lire_nbr();
-	}else
+	}
+	else
 		switch(Car_Cour){
 			case';':
 				SYM_COUR.CODE=PV_TOKEN ;
-				printf("pv_token\n");
+				printf("PV_TOKEN\n");
 				Lire_Car();
 				break;
 			case'.':
@@ -180,16 +190,13 @@ void sym_suiv(){
 					}else{
 					SYM_COUR.CODE=EGAL1_RIGHT_TOKEN ;
 					printf("EGAL1_RIGHT_TOKEN\n");
-					Lire_Car();
 					break;
 					}
 				}else{
 				SYM_COUR.CODE=MOINS_TOKEN ;
 				printf("MOINS_TOKEN\n");
-				Lire_Car();
 				break;
 				}
-
 			case'*':
 				SYM_COUR.CODE= MULT_TOKEN;
 				printf("MULT_TOKEN\n");
@@ -237,8 +244,7 @@ void sym_suiv(){
 				printf("MODULUS_TOKEN\n");
 				Lire_Car();
 				break;
-				}
-				else{
+				}else{
 					if(Car_Cour=='/'){
 						Lire_Car();
 						if(Car_Cour=='%'){
@@ -248,16 +254,20 @@ void sym_suiv(){
 							break;
 						}
 						else{
+                // erreur fors syntaxe
+                break;
 							////erreur hors syntaxe
 							break;
 						}
 					}
-					else{
+                else{
+                        //erreur hors syntaxe
+                        break;
 							////erreur hors syntaxe
 							break;
 					}
 				}
-				////erreur hors syntaxe
+				//erreur hors syntaxe
 				break;
 			case'<':
 				Lire_Car();
@@ -292,7 +302,6 @@ void sym_suiv(){
 						}
 					SYM_COUR.CODE =LT_TOKEN;
 					printf("INF_TOKEN\n");
-					Lire_Car();
 					break;
 					}
 				}
@@ -306,24 +315,22 @@ void sym_suiv(){
 				}else{
 					SYM_COUR.CODE = GT_TOKEN ;
 					printf("GT_TOKEN\n");
-					Lire_Car();
 					break;
 				}
 
 
 			case'=':
-			Lire_Car();
-			if(Car_Cour=='='){
-				SYM_COUR.CODE=EQ_TOKEN ;
-				printf("EQ_TOKEN\n");
-				Lire_Car();
-				break;
-			}else{
-				SYM_COUR.CODE=EGAL_LEFT_TOKEN ;
-				printf("EGAL_LEFT_TOKEN =\n");
-				Lire_Car();
-				break;
-			}
+                Lire_Car();
+                if(Car_Cour=='='){
+                    SYM_COUR.CODE=EQ_TOKEN ;
+                    printf("EQ_TOKEN\n");
+                    Lire_Car();
+                    break;
+                }else{
+                    SYM_COUR.CODE=EGAL_LEFT_TOKEN ;
+                    printf("EGAL_LEFT_TOKEN =\n");
+                    break;
+                }
 			case'!':
 				Lire_Car();
 				if(Car_Cour=='='){
@@ -334,7 +341,6 @@ void sym_suiv(){
 				}else{
 					SYM_COUR.CODE = LOGNOT_TOKEN ;
 					printf("LOGNOT_TOKEN\n");
-					Lire_Car();
 					break;
 				}
 
@@ -348,7 +354,6 @@ void sym_suiv(){
 				}else{
 					SYM_COUR.CODE = LOGAND_TOKEN ;
 					printf("LOGAND_TOKEN\n");
-					Lire_Car();
 					break;
 				}
 		 	case'|':
@@ -361,7 +366,6 @@ void sym_suiv(){
 				}else{
 					SYM_COUR.CODE = LOGOR_TOKEN ;
 					printf("LOGOR_TOKEN\n");
-					Lire_Car();
 					break;
 				}
             case '(':
@@ -390,7 +394,7 @@ int main(){
 	Fichier=fopen("test","r");
 	Lire_Car();
 	while(Car_Cour!=EOF){
-		sym_suiv();
+		next_sym();
 	}
 	printf("fin_token");
 	fclose(Fichier);
