@@ -1,0 +1,97 @@
+- prog :{ expr }*
+
+- expr:        function_call
+	 		|operation
+		 	|index_construction
+		 	|compound_expression
+		 	|flow_control
+		 	|function_def
+
+- function_call: function_reference({arg,}* arg)
+                |function_reference()
+
+ // function_call : function_reference.T
+T : ({arg,}* arg) | ()
+
+
+- function_def: function_reference{.id}* ( arglist ) { expr }*
+
+- index_construction : id [ arglist]
+						id[[arglist]]
+
+
+- compound_expression:{ {expr;}* expr}
+
+
+
+
+- flow_control : if ( cond ) expr {else expr}
+				while ( cond ) expr
+				repeat expr
+				for ( id in list ) expr
+
+
+- function_reference: id
+					|string
+					|expr
+
+
+
+
+- operation:  '-' expr
+       ! expr
+       expr op expr
+
+
+
+- list: vector
+	  id
+	 ({item,}* item)
+
+vector : num|id : num|id
+
+
+op : binop
+	relop
+	assgop
+	logical_op
+	:
+	::
+
+
+arglist : {arg,}*arg
+		|empty
+
+arg : empty
+	| tag = expr
+	| item
+	| ...|..2|..
+
+
+item: id,
+	  string,
+	  	num
+
+
+
+binop 	: 	+
+ 	|	–
+ 	|	*
+ 	|	/
+
+relop 	: 	==
+ 	|	!=
+ 	|	<=
+ 	|	<
+ 	|	>=
+ 	|	>
+
+assgop :  =| <- | <<-
+
+logical_op 	: 	&&
+ 	|	||prog :{ expr }*
+
+cond : cond logical_op cond
+        |id
+        |function_call
+        |expr relop expr
