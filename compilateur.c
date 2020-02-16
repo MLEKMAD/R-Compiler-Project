@@ -6,7 +6,7 @@
 #include "analyseur_synthaxique.h"
 
 int main(){
-	Fichier=fopen("tes.r","r");
+	Fichier=fopen("test.r","r");
 
 	Lire_Car();
 
