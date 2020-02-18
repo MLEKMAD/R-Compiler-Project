@@ -26,6 +26,7 @@ boolean STAT(){
 }
 
 boolean SIMPLE_STAT(){
+	if(LIST()) return true;
 	if(SYM_COUR.CODE == NUM_TOKEN || SYM_COUR.CODE == ID_TOKEN){
 		if(SYM_COUR.CODE == ID_TOKEN){
 
@@ -39,7 +40,7 @@ boolean SIMPLE_STAT(){
 		if(NUM_SEQ_END()) return true;
 	 	if(ASSG_OR_CALL_END()) return true;
 	}
-	if(REP_FUNCT())return true;
+	if(REP_FUNCT()) return true;
     else if(RETURN()) return true;
     else false;
 
@@ -71,15 +72,14 @@ boolean WHILE_LOOP(){
         else{
 
             next_sym();
-
-            if(!COND()) raise_error(COND_EXPECTED);
-
+            if(!COND()) {printf("jxhv\n"); raise_error(COND_EXPECTED);}
 
 
+			
             if(SYM_COUR.CODE != PF_TOKEN) raise_error(PF_EXPECTED_ERROR);
 
 			next_sym();
-
+			
 		    if(SYM_COUR.CODE != OCB_TOKEN) raise_error(OCB_EXPECTED_ERROR);
 
 			next_sym();
@@ -87,7 +87,7 @@ boolean WHILE_LOOP(){
             if(!SEQ_STAT()) raise_error(SEQ_STAT_EXPECTED);
 
 
-
+			
             if(SYM_COUR.CODE != CCB_TOKEN) raise_error(CCB_EXPECTED_ERROR);
 			next_sym();
 			return true;
@@ -96,6 +96,7 @@ boolean WHILE_LOOP(){
 }
 
 boolean FOR_LOOP(){
+	
     if(SYM_COUR.CODE != FOR_TOKEN) return false;
     next_sym();
     if(SYM_COUR.CODE != PO_TOKEN) raise_error(PO_EXPECTED_ERROR);
@@ -104,22 +105,35 @@ boolean FOR_LOOP(){
     next_sym();
     if(SYM_COUR.CODE != IN_TOKEN) raise_error(IN_EXPECTED_ERROR);
     next_sym();
-    if(SYM_COUR.CODE != ID_TOKEN && SYM_COUR.CODE != NUM_TOKEN) raise_error(ID_OR_NUM_EXPECTED_ERROR);
-    next_sym();
-    if(SYM_COUR.CODE != DEUX_POINTS_TOKEN) raise_error(DEUXPOINT_EXPECTED_ERROR);
-    next_sym();
-    if(SYM_COUR.CODE != ID_TOKEN && SYM_COUR.CODE != NUM_TOKEN) raise_error(ID_OR_NUM_EXPECTED_ERROR);
-    next_sym();
-    if(SYM_COUR.CODE != PF_TOKEN) raise_error(PF_EXPECTED_ERROR);
-    next_sym();
-    if(SYM_COUR.CODE != OCB_TOKEN) raise_error(OCB_EXPECTED_ERROR);
-    next_sym();
+	if(C_FUNCT()){
+		if(SYM_COUR.CODE != PF_TOKEN) raise_error(PF_EXPECTED_ERROR);
+		next_sym();
+		if(SYM_COUR.CODE != OCB_TOKEN) raise_error(OCB_EXPECTED_ERROR);
+		next_sym();
+		if(!SEQ_STAT()) raise_error(SEQ_STAT_EXPECTED) ;
+		if(SYM_COUR.CODE != CCB_TOKEN) raise_error(CCB_EXPECTED_ERROR);
+		next_sym();
+		return true ;
+		}
+			
+	else{
+		if(SYM_COUR.CODE != ID_TOKEN && SYM_COUR.CODE != NUM_TOKEN) raise_error(ID_OR_NUM_EXPECTED_ERROR);
+		next_sym();
+		if(SYM_COUR.CODE != DEUX_POINTS_TOKEN) raise_error(DEUXPOINT_EXPECTED_ERROR);
+		next_sym();
+		if(SYM_COUR.CODE != ID_TOKEN && SYM_COUR.CODE != NUM_TOKEN) raise_error(ID_OR_NUM_EXPECTED_ERROR);
+		next_sym();
+		if(SYM_COUR.CODE != PF_TOKEN) raise_error(PF_EXPECTED_ERROR);
+		next_sym();
+		if(SYM_COUR.CODE != OCB_TOKEN) raise_error(OCB_EXPECTED_ERROR);
+		next_sym();
+		
+		if(!SEQ_STAT()) raise_error(SEQ_STAT_EXPECTED) ;
 
-    if(!SEQ_STAT()) raise_error(SEQ_STAT_EXPECTED) ;
-
-    if(SYM_COUR.CODE != CCB_TOKEN) raise_error(CCB_EXPECTED_ERROR);
-    next_sym();
-	return true ;
+		if(SYM_COUR.CODE != CCB_TOKEN) raise_error(CCB_EXPECTED_ERROR);
+		next_sym();
+		return true ;
+	}
 }
 
 boolean REPEAT_LOOP(){
@@ -132,8 +146,7 @@ boolean REPEAT_LOOP(){
 		next_sym();
     	if(!SEQ_STAT()) raise_error(SEQ_STAT_EXPECTED) ;
 		else{
-
-
+			
 			if(SYM_COUR.CODE != CCB_TOKEN) raise_error(CCB_EXPECTED_ERROR);
 			next_sym();
 			return true;
@@ -150,7 +163,8 @@ boolean IF_STAT(){
 
     if(SYM_COUR.CODE != PO_TOKEN) raise_error(PO_EXPECTED_ERROR);
     next_sym();
-    if(!COND()) raise_error(COND_EXPECTED) ;
+
+    if(!COND()) { printf("333\n"); raise_error(COND_EXPECTED) ;}
 
     if(SYM_COUR.CODE != PF_TOKEN) raise_error(PF_EXPECTED_ERROR);
 
@@ -166,14 +180,16 @@ boolean IF_STAT(){
 	next_sym();
 
 	if(SYM_COUR.CODE == ELSE_TOKEN){
+		
 		do{
 			next_sym();
+
 			if(SYM_COUR.CODE == IF_TOKEN){
 				next_sym();
 				if(SYM_COUR.CODE != PO_TOKEN) raise_error(PO_EXPECTED_ERROR);
 				else{
 					next_sym();
-					if(!COND()) raise_error(COND_EXPECTED);
+					if(!COND()){printf("in condition\n"); raise_error(COND_EXPECTED);}
 					else{
 
 						if(SYM_COUR.CODE != PF_TOKEN) raise_error(PF_EXPECTED_ERROR);
@@ -195,6 +211,7 @@ boolean IF_STAT(){
 				}
 			}
 			else{
+				
 				if(SYM_COUR.CODE != OCB_TOKEN) raise_error(OCB_EXPECTED_ERROR);
 				else{
 					if(!SEQ_STAT()) raise_error(SEQ_STAT_EXPECTED);
@@ -207,6 +224,7 @@ boolean IF_STAT(){
 			}
 		}while(SYM_COUR.CODE == ELSE_TOKEN);
 	}
+	next_sym();
 	return true;
 
 
@@ -254,6 +272,7 @@ boolean FUNC_ASSG(){
 			 else{
             next_sym();
             if(SYM_COUR.CODE != ID_TOKEN) raise_error(IDENTIFIER_EXPECTED_ERROR);
+			
 			else{
                 next_sym();
             while(SYM_COUR.CODE == VIR_TOKEN){
@@ -360,7 +379,6 @@ boolean REL(){
 
 boolean SIMPLE_EXP(){
 	if(SYM_COUR.CODE == STRING_TOKEN){
-
 		set_last_symbol_type(TCHR);
 		next_sym();
 		return true;}
@@ -422,7 +440,7 @@ boolean PRIMARY(){
 
 	if(SYM_COUR.CODE == NUM_TOKEN){
 		set_last_symbol_type(TINT);
-
+		
 		return true;}
 	if(SYM_COUR.CODE == ID_TOKEN) return true;
 	return false;
@@ -436,7 +454,7 @@ boolean RELOP(){
         case LTE_TOKEN:
         case GTE_TOKEN:
         case EQ_TOKEN:
-        case NOT_EQ_TOKEN:return true;
+        case NOT_EQ_TOKEN: return true;
         default: return false;
 
     }
@@ -540,6 +558,7 @@ boolean REP_FUNCT(){
 	if(!VECT_FUNCT()) raise_error(VECT_FUNCT_EXPECTED) ;
 	next_sym();
 	if(SYM_COUR.CODE != PF_TOKEN) raise_error(PF_EXPECTED_ERROR);
+	next_sym();
 	return true;}
 
 }//verified
@@ -698,3 +717,51 @@ boolean EACH_FUNCT(){
 
  }
 
+boolean LIST(){
+	if(SYM_COUR.CODE != LIST_TOKEN) return false;
+	next_sym();
+	if(SYM_COUR.CODE != PO_TOKEN) raise_error(PO_EXPECTED_ERROR);
+	next_sym();
+	if(!ARGS()) raise_error(CHARACTER_EXPECTED_ERROR);
+	
+	if(SYM_COUR.CODE != PF_TOKEN) raise_error(PF_EXPECTED_ERROR);
+	next_sym();
+	
+	return true;
+}
+boolean ARGS(){
+	if(SYM_COUR.CODE == STRING_TOKEN) {
+		next_sym();
+		if(SYM_COUR.CODE != EGAL_LEFT_TOKEN) raise_error(CHARACTER_EXPECTED_ERROR);
+		next_sym();
+		if(!ARGUMENT()) raise_error(CHARACTER_EXPECTED_ERROR);
+		return true;
+	}
+
+	if(!ARGUMENT()) raise_error(CHARACTER_EXPECTED_ERROR);
+	return true;
+
+}
+boolean ARGUMENT(){
+	if(!ARGM()) return false;
+	next_sym();
+	if(SYM_COUR.CODE == VIR_TOKEN){
+		next_sym();
+		if(!ARGM()) raise_error(CHARACTER_EXPECTED_ERROR);
+		return true;
+	}
+	return true ;
+}
+boolean ARGM(){
+	if(SYM_COUR.CODE == NUM_TOKEN  || SYM_COUR.CODE == ID_TOKEN){
+		next_sym();
+		if(NUM_SEQ_END()){
+		return true ;
+		}
+		return true;
+	}
+	else if(SYM_COUR.CODE != STRING_TOKEN && !C_FUNCT() && !REP_FUNCT() && !SEQ_FUNCT() && !NUM_SEQ() ) raise_error(ARGUMENT_ERROR);
+	return true ;
+
+
+}

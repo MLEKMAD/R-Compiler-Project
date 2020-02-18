@@ -6,3 +6,4 @@ compilateur.o
 errors.o
 pseudo_code.o
 symbol_table.o
+test.r

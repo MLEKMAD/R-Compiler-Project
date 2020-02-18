@@ -20,7 +20,7 @@ typedef enum _CODES_LEX{
     REPEAT_TOKEN  ,PRINT_TOKEN,
     WHILE_TOKEN , FUNCTION_TOKEN, FOR_TOKEN     ,
     IN_TOKEN    , NEXT_TOKEN    , BREAK_TOKEN   ,
-    TRUE_TOKEN  , FALSE_TOKEN   , NULL_TOKEN   ,
+    TRUE_TOKEN  , FALSE_TOKEN   , NULL_TOKEN   ,LIST_TOKEN,
     /// cluster 1
     INF_TOKEN   , NaN_TOKEN     ,NA_TOKEN       ,PLUS_TOKEN,
     NA_INTEGER__TOKEN  , NA_REAL__TOKEN , NA_COMPLEX__TOKEN,
@@ -58,11 +58,11 @@ typedef enum _symbol_type {
 	TFLT,
 
 
-} symbol_type;
+}symbol_type;
 
 
 // Symbol structure that will be stored in the table of symbols
-struct _stored_symbol {
+typedef struct _stored_symbol {
 	char nom[30];
 	enum _symbol_type type;
 	int address;
@@ -71,7 +71,7 @@ struct _stored_symbol {
 	//int offset;
 
 
-};
+}stored_symbol;
 
 // Variable declaration
 FILE* file;

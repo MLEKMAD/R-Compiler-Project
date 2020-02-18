@@ -51,6 +51,10 @@ boolean TIMES_FUNCT();
 boolean NUM_SEQ();
 boolean REP_FUNCT();
 boolean NUM_SEQ_END();
-
+boolean LIST();
+boolean ARGS();
+boolean ARGUMENT();
+boolean ARGM();
+boolean PRINT();
 
 #endif

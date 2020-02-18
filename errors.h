@@ -47,6 +47,7 @@ typedef enum _error_codes {
 	ARG_SEQ_EXPECTED,
 	STRING_TOKEN_EXPECTED,
 	BOOLEAN_EXPECTED,
+	ARGUMENT_ERROR,
 
 
 

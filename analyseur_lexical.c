@@ -3,8 +3,9 @@
 
 int *i=0;
 int  Car_Cour=0;
-
+int current_line;
 void Lire_Car(){
+	
   Car_Cour=fgetc(Fichier);
   if(Car_Cour == '\n') current_line++;
 }
@@ -121,6 +122,10 @@ void lire_mots(){
     strcpy(SYM_COUR.nom,"BY_TOKEN\n");
 	strcpy(SYM_COUR.name,chaine);
     SYM_COUR.CODE = BY_TOKEN ;
+  }else if((strcmp("list",chaine)==0)) {
+    strcpy(SYM_COUR.nom,"LIST_TOKEN\n");
+	strcpy(SYM_COUR.name,chaine);
+    SYM_COUR.CODE = LIST_TOKEN ;
   }
   else if ((strcmp("TRUE",chaine)==0 || strcmp("FALSE", chaine) == 0)){
     strcpy(SYM_COUR.nom,"BOOLEAN_TOKEN\n");
